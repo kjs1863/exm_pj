@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        https://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+  	
+  	<!-- <context:component-scan base-package="com.cos.controller" /> -->
+  	<!-- <context:component-scan base-package="com.**.controller" /> -->
+  	<context:component-scan base-package="com.**" />
+  	<!-- <context:component-scan base-package="com.*" /> -->
+  	<!-- <context:component-scan base-package="com." /> -->
+  	<context:component-scan base-package="com" />
+  	<mvc:annotation-driven>
+  		<mvc:message-converters> <!-- @ResponseBody로 String 처리할때 한글처리 -->
+  			<beans:bean class="org.springframework.http.converter.StringHttpMessageConverter" >
+  				<beans:property name="supportedMediaTypes">
+  					<beans:list>
+  						<beans:value>text/html;charset=UTF-8</beans:value>
+  					</beans:list>
+  				</beans:property>
+  				
+  			</beans:bean>
+  		</mvc:message-converters>
+  	</mvc:annotation-driven>
+  	
+  	<mvc:interceptors>
+		<mvc:interceptor>
+			<!-- <mvc:mapping path="/**"/> -->
+			<mvc:mapping path="/interceptorTest1"/>
+			<beans:bean class="com.cos.interceptors.Interceptor"/>
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/loginPost"/>
+			<beans:bean class="com.cos.interceptors.LoginInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+<!-- 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="webBindingInitializer">
+            <bean class="com.wizexpert.framework.web.BindingInitializer"/>
+        </property>
+        @ResponseBody application/json 으로 변경
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+            </list>
+        </property>
+    </bean> -->
+</beans>        
